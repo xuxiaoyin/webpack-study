@@ -1,6 +1,7 @@
 const path = require("path")
 const htmlWebpackpulgin = require("html-webpack-plugin")
 const {CleanWebpackPlugin} = require("clean-webpack-plugin")
+const webpack = require("webpack")
 
 module.exports = {
   entry: "./src/index.js",
@@ -20,7 +21,14 @@ module.exports = {
   devServer: {
     contentBase: "./dist", //资源文件目录
     open: true,  //自动打开浏览器
-    port: 8081
+    hot: true,   //开启热模块替换
+    port: 8081,
+    hotOnly: true,
+    proxy: {
+      "/api": {
+        target: "http://localhost:9000"
+      }
+    }
   },
   module: {
     rules: [
@@ -36,6 +44,7 @@ module.exports = {
       template: "./index.html",
       inject: "head",
       filename: "index.html"
-    })
+    }),
+    new webpack.HotModuleReplacementPlugin()
   ]
 }
