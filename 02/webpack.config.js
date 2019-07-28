@@ -35,6 +35,12 @@ module.exports = {
       {
         test: /\.css$/,
         use: ["style-loader","css-loader"]
+      },
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        include: path.resolve(__dirname, "./src"),
+        loader: "babel-loader",
       }
     ]
   },
@@ -42,7 +48,7 @@ module.exports = {
     new CleanWebpackPlugin(),
     new htmlWebpackpulgin({
       template: "./index.html",
-      inject: "head",
+      inject: "body",
       filename: "index.html"
     }),
     new webpack.HotModuleReplacementPlugin()
